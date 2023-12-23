@@ -2,7 +2,6 @@ import React from "react";
 import {
   Box,
   Container,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -12,7 +11,48 @@ import {
   Typography,
 } from "@mui/material";
 
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import ProgressBtn from "../../Common/ProgressButton/ProgressBtn";
+
+const options = [
+  "Create a merge commit",
+  "Squash and merge",
+  "Rebase and merge",
+];
+
 function PmTable() {
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleClick = () => {
+    console.info(`You clicked ${options[selectedIndex]}`);
+  };
+
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(prevOpen => !prevOpen);
+  };
+
+  const handleClose = event => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
   const tableData = [
     {
       moduleName: "Developer",
@@ -53,7 +93,7 @@ function PmTable() {
   ];
 
   return (
-    <Container maxWidth="md">
+    <Container>
       <Box my={4}>
         <Typography variant="h6" component="h2" gutterBottom>
           Project Management Table
@@ -69,13 +109,17 @@ function PmTable() {
               >
                 <TableCell
                   align="center"
-                  sx={{ fontWeight: 700, padding: "8px" , borderTopLeftRadius: "8px", }}
+                  sx={{
+                    fontWeight: 700,
+                    padding: "8px",
+                    borderTopLeftRadius: "8px",
+                  }}
                 >
                   Module Name
                 </TableCell>
                 <TableCell
-                  align="center"
-                  sx={{ fontWeight: 700, padding: "8px" }}
+                  align="left"
+                  sx={{ fontWeight: 700, padding: "7px 12px" }}
                 >
                   Task
                 </TableCell>
@@ -99,7 +143,11 @@ function PmTable() {
                 </TableCell>
                 <TableCell
                   align="center"
-                  sx={{ fontWeight: 700, padding: "8px" , borderTopRightRadius: "8px",}}
+                  sx={{
+                    fontWeight: 700,
+                    padding: "8px",
+                    borderTopRightRadius: "8px",
+                  }}
                 >
                   Module ETA
                 </TableCell>
@@ -109,13 +157,20 @@ function PmTable() {
               {tableData.map((rowData, index) => (
                 <TableRow key={index}>
                   <TableCell align="center">{rowData.moduleName}</TableCell>
-                  <TableCell align="center">{rowData.task}</TableCell>
+                  <TableCell align="center" sx={{ padding: "16px 0" }}>
+                    {rowData.task}
+                  </TableCell>
                   <TableCell align="center">
-                    {rowData.taskDescription}
+                    {rowData.taskDescription}{" "}
+                    <Button variant="contained" sx={{ color: "white" }}>
+                      hello
+                    </Button>
                   </TableCell>
                   <TableCell align="center">{rowData.assignee}</TableCell>
                   <TableCell align="center">{rowData.taskETA}</TableCell>
-                  <TableCell align="center">{rowData.moduleETA}</TableCell>
+                  <TableCell align="center">
+                    {rowData.moduleETA} <ProgressBtn />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
