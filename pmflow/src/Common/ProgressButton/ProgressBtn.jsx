@@ -41,9 +41,9 @@ const ProgressBtn = () => {
       <ButtonGroup
         ref={anchorRef}
       >
-        <Button onClick={handleToggle}>
+        <Button sx={{padding:"5px 3px"}} onClick={handleToggle}>
           {options[selectedIndex]}
-          <KeyboardArrowDownIcon sx={{ml:"10px"}}/>
+          <KeyboardArrowDownIcon sx={{ml:"5px"}}/>
         </Button>
       </ButtonGroup>
       <Popper
